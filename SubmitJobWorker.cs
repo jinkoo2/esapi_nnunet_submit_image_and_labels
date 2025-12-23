@@ -54,11 +54,13 @@ namespace nnunet_client
                 }
 
                 // Clean up old temporary folders before sleeping
+                helper.log("Cleaning up old temporary folders...");
                 CleanupOldTempFolders();
 
                 // Sleep for a bit before checking for more jobs
                 if (!_shouldStop)
                 {
+                    helper.log("Sleeping for 60 seconds...");
                     Thread.Sleep(60000); // Check every 60 seconds
                 }
             }
@@ -86,12 +88,12 @@ namespace nnunet_client
                 helper.log($"Processing job: {job.JobId}");
 
                 // Update status to Processing
-                //_jobQueueService.UpdateJobStatus(job.JobId, "Processing");
+                _jobQueueService.UpdateJobStatus(job.JobId, "Processing");
 
                 try
                 {
                     ProcessJob(job);
-                    //_jobQueueService.UpdateJobStatus(job.JobId, "Completed");
+                    _jobQueueService.UpdateJobStatus(job.JobId, "Completed");
                     helper.log($"Job {job.JobId} completed successfully.");
                 }
                 catch (Exception ex)
@@ -103,7 +105,7 @@ namespace nnunet_client
                         helper.log($"Inner exception: {ex.InnerException.Message}");
                     }
                     helper.log($"Stack trace: {ex.StackTrace}");
-                    //_jobQueueService.UpdateJobStatus(job.JobId, "Failed", ex.Message);
+                    _jobQueueService.UpdateJobStatus(job.JobId, "Failed", ex.Message);
                 }
             }
             catch (Exception ex)
