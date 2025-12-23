@@ -53,6 +53,9 @@ namespace nnunet_client
                     helper.log($"Stack trace: {ex.StackTrace}");
                 }
 
+                // Clean up old temporary folders before sleeping
+                CleanupOldTempFolders();
+
                 // Sleep for a bit before checking for more jobs
                 if (!_shouldStop)
                 {
@@ -348,6 +351,83 @@ namespace nnunet_client
             itk.simple.ImageFileWriter writer = new itk.simple.ImageFileWriter();
             writer.Execute(labelImage, outputPath, true);
             helper.log($"Labels image created successfully at {outputPath}");
+        }
+
+        private void CleanupOldTempFolders()
+        {
+            try
+            {
+                string tempPath = Path.GetTempPath();
+                string searchPattern = "nnunet_submit_*";
+                var tempDirs = Directory.GetDirectories(tempPath, searchPattern);
+
+                if (tempDirs.Length == 0)
+                {
+                    return; // No temp folders to clean
+                }
+
+                DateTime cutoffDate = DateTime.Now.AddDays(-7);
+                int deletedCount = 0;
+                long totalSizeFreed = 0;
+
+                foreach (string dir in tempDirs)
+                {
+                    try
+                    {
+                        DirectoryInfo dirInfo = new DirectoryInfo(dir);
+                        // Check last write time (when files were last modified)
+                        if (dirInfo.LastWriteTime < cutoffDate)
+                        {
+                            // Calculate size before deletion
+                            long dirSize = GetDirectorySize(dirInfo);
+                            totalSizeFreed += dirSize;
+
+                            Directory.Delete(dir, true);
+                            deletedCount++;
+                            helper.log($"Deleted old temp folder: {dir} (age: {(DateTime.Now - dirInfo.LastWriteTime).Days} days, size: {dirSize / (1024.0 * 1024.0):F2} MB)");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        helper.log($"Warning: Could not delete temp folder {dir}: {ex.Message}");
+                    }
+                }
+
+                if (deletedCount > 0)
+                {
+                    helper.log($"Cleanup completed: Deleted {deletedCount} old temp folder(s), freed {totalSizeFreed / (1024.0 * 1024.0):F2} MB");
+                }
+            }
+            catch (Exception ex)
+            {
+                helper.log($"Warning: Error during temp folder cleanup: {ex.Message}");
+            }
+        }
+
+        private long GetDirectorySize(DirectoryInfo dirInfo)
+        {
+            long size = 0;
+            try
+            {
+                // Add file sizes
+                FileInfo[] files = dirInfo.GetFiles("*", SearchOption.AllDirectories);
+                foreach (FileInfo file in files)
+                {
+                    try
+                    {
+                        size += file.Length;
+                    }
+                    catch
+                    {
+                        // Skip files that can't be accessed
+                    }
+                }
+            }
+            catch
+            {
+                // Skip directories that can't be accessed
+            }
+            return size;
         }
     }
 }
