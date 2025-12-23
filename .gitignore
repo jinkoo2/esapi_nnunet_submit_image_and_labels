@@ -1,0 +1,79 @@
+## Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]uild/
+[Bb]uilds/
+[Oo]ut/
+
+## Visual Studio cache/options
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## Visual Studio Code
+.vscode/
+
+## Rider
+.idea/
+*.sln.iml
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.pdb
+*.cache
+
+## NuGet Packages
+packages/
+*.nupkg
+*.snupkg
+**/packages/*
+
+## Temporary files
+*.tmp
+*.temp
+*.log
+*.swp
+*~
+
+## OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Project specific
+# Config files (may contain sensitive information)
+# Uncomment if config.json contains secrets
+# config.json
+
+# User-specific project files
+*.csproj.user
+*.user
+
+# Temporary export directories (if tracked)
+# Uncomment if you want to ignore temp export folders
+# temp_*/
+

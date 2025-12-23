@@ -1,0 +1,13 @@
+{
+  "data_root_secure": "G:\\data_secure",
+  "make_export_log": false,
+  "nnunet_requester_id": "esapi_nnunet_client@varianEclipseTest",
+  "nnunet_request_user_name": "Jinkoo Kim",
+  "nnunet_request_user_email": "jinkoo.kim@stonybrookmedicine.edu",
+  "nnunet_request_user_institution": "Stony Brook",
+  "app_data_dir": "G:\\data_secure\\_bladder_art\\apps\\esapi_nnunet_client\\_data",
+  "nnunet_server_url": "https://nnunet-server-01.apps.myphysics.net/api/v2",
+  "nnunet_server_auth_email": "test@email.com",
+  "nnunet_server_auth_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGVtYWlsLmNvbSIsImV4cCI6MTc5NTg5ODc4M30.Zu_fZ4T1pq78vs-XkrYAJbUGpQPwWQjKL0bQMxDLrNo"
+}
+
