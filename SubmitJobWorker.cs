@@ -290,24 +290,6 @@ namespace nnunet_client
             }
         }
 
-        private void ConvertImageToInt32(string inputPath, string outputPath)
-        {
-            helper.log($"ConvertImageToInt32(input={inputPath}, output={outputPath})");
-
-            // Read the exported image
-            itk.simple.ImageFileReader reader = new itk.simple.ImageFileReader();
-            reader.SetFileName(inputPath);
-            itk.simple.Image inputImage = reader.Execute();
-
-            // Convert to Int32
-            itk.simple.Image int32Image = SimpleITK.Cast(inputImage, itk.simple.PixelIDValueEnum.sitkInt32);
-
-            // Save with compression
-            itk.simple.ImageFileWriter writer = new itk.simple.ImageFileWriter();
-            writer.Execute(int32Image, outputPath, true);
-            helper.log($"Image converted to Int32 and saved to {outputPath}");
-        }
-
         private void CombineMasksIntoLabelImage(List<(string path, int labelValue)> maskInfoList, string outputPath)
         {
             helper.log($"CombineMasksIntoLabelImage(output={outputPath})");
